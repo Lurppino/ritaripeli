@@ -15,22 +15,22 @@ namespace ritaripeli
             tavarat = new List<Tavara>();
         }
 
-        public void LisaaTavara(Tavara tavara)
+        public void AddItem(Tavara tavara)
         {
             tavarat.Add(tavara);
         }
 
-        public void PoistaTavara(Tavara tavara)
+        public void RemoveItem(Tavara tavara)
         {
             tavarat.Remove(tavara);
         }
 
-        public List<Tavara> HaeTavarat()
+        public List<Tavara> ReturnItem()
         {
             return tavarat;
         }
 
-        public void NaytaSisalto()
+        public void ShowInventory()
         {
             if (tavarat.Count == 0)
             {
