@@ -8,17 +8,17 @@ namespace ritaripeli
 {
     internal class Ruoka : Tavara
     {
-        public int Elvytys { get; private set; }  
+        public int Restoration { get; private set; }  
 
-        public Ruoka(string nimi, int arvo, int elvytys) : base(nimi, arvo)
+        public Ruoka(string nimi, int arvo, int restoration) : base(nimi, arvo)
         {
-            Elvytys = elvytys;
+            Restoration = restoration;
         }
 
         public override void Kayta(Ritari ritari)
         {
-            ritari.Osumapisteet += Elvytys;
-            Console.WriteLine($"{ritari.Nimi} söi {Nimi} ja parani {Elvytys} osumapistettä!");
+            ritari.Osumapisteet += Restoration;
+            Console.WriteLine($"{ritari.Nimi} söi {Nimi} ja parani {Restoration} osumapistettä!");
         }
     }
 }
