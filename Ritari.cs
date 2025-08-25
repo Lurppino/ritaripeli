@@ -9,14 +9,14 @@ namespace ritaripeli
 	internal class Ritari
 	{
 		public int Osumapisteet {  get; set; }
-		// TODO private Reppu reppu;
+		private Reppu reppu { get; set; }
 		public Lompakko rahapussi;
 
 		public Ritari(int aloitusOsumapisteet, int aloitusRahat)
 		{
 			Osumapisteet = aloitusOsumapisteet;
 			rahapussi = new Lompakko(aloitusRahat);
-			// TODO luo tyhjä Reppu
+			reppu = new Reppu();
 		}
 
 	}
