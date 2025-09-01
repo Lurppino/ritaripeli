@@ -1,25 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ritaripeli
+﻿namespace ritaripeli
 {
-	internal class Ritari
-	{
-		public int Osumapisteet {  get; set; }
-        public string Nimi { get; set; }
-        private Reppu reppu { get; set; }
-		public Lompakko rahapussi;
+    internal class Ritari
+    {
+        public string Nimi { get; private set; }
+        public int Osumapisteet { get; set; }
+        public Lompakko Rahapussi { get; private set; }
+        public Reppu Reppu { get; private set; }
 
-		public Ritari(string nimi,int aloitusOsumapisteet, int aloitusRahat)
-		{
+        public Ritari(string nimi, int aloitusOsumapisteet, int aloitusRahat)
+        {
             Nimi = nimi;
             Osumapisteet = aloitusOsumapisteet;
-			rahapussi = new Lompakko(aloitusRahat);
-			reppu = new Reppu();
-		}
+            Rahapussi = new Lompakko(aloitusRahat);
+            Reppu = new Reppu();
+        }
 
-	}
+        
+        public void KaytaTavara(int index)
+        {
+            var tavarat = Reppu.ReturnItem();
+            if (index < 0 || index >= tavarat.Count)
+            {
+                Console.WriteLine("Virheellinen valinta!");
+                return;
+            }
+
+            Tavara valittu = tavarat[index];
+            valittu.Kayta(this);
+            Reppu.RemoveItem(valittu);
+        }
+    }
 }
