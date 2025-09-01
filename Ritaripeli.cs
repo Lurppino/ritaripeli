@@ -9,18 +9,25 @@ namespace ritaripeli
 	internal class Ritaripeli
 	{
 		Ritari pelaaja;
-		List<Hirvio> hirviot;
+		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
-		public Ritaripeli()
-		{
-			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 10);
-			hirviot = new List<Hirvio>();
-			// TODO luo erilaiset hirviöt
-			kaupat = new List<IKauppa>();
-			// TODO luo erilaiset kaupat
-		}
+        public Ritaripeli()
+        {
+            pelaaja = new Ritari("Sankari", aloitusOsumapisteet: 10, aloitusRahat: 10);
 
-		public void PeliSilmukka()
+            
+            hirviot = new List<Hirviö>()
+			{
+					new Goblin()
+			};
+
+            kaupat = new List<IKauppa>()
+			{
+				new NuoliKauppa()
+			};
+        }
+
+        public void PeliSilmukka()
 		{
 			while (true)
 			{
@@ -37,7 +44,7 @@ namespace ritaripeli
 		public void TaisteluTila()
 		{
 			// TODO arvo pelaajaa vastaan taisteleva hirviö
-			Hirvio vastustaja = null;
+			Hirviö vastustaja = null;
 			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
 			{
 				// TODO anna pelaajan valita toiminto:
