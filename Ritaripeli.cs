@@ -117,10 +117,26 @@ namespace ritaripeli
 
         public void KauppaTila()
 		{
-			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
-			// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-			// yrittää ostaa
-			// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
-		}
+            IKauppa kauppa = kaupat[0];
+            while (true)
+            {
+                Console.WriteLine("\nNuolikauppa tavarat:");
+                var tuotteet = kauppa.ListaaTavarat();
+                for (int i = 0; i < tuotteet.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}: {tuotteet[i].Esine.Nimi} - {tuotteet[i].Hinta} kultaa");
+                }
+                Console.WriteLine($"{tuotteet.Count + 1}: Poistu kaupasta");
+                Console.Write("> ");
+
+                int valinta = int.Parse(Console.ReadLine()) - 1;
+                if (valinta == tuotteet.Count)
+                    break;
+
+                Tavara? ostettu = kauppa.OstaTavara(valinta, pelaaja.Rahapussi);
+                if (ostettu != null)
+                    pelaaja.Reppu.AddItem(ostettu);
+            }
+        }
 	}
 }
