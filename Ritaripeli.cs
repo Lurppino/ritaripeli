@@ -23,8 +23,9 @@ namespace ritaripeli
 
             kaupat = new List<IKauppa>()
 			{
-				new NuoliKauppa()
-			};
+				new NuoliKauppa(),
+                new RuokaKauppa()
+            };
         }
 
         public void PeliSilmukka()
@@ -34,8 +35,9 @@ namespace ritaripeli
                 Console.WriteLine($"\nTilanne: HP {pelaaja.Osumapisteet}, Kultaa {pelaaja.Rahapussi.Rahoja}");
                 Console.WriteLine("Valitse toiminto:");
                 Console.WriteLine("1. Mene nuolikauppaan");
-                Console.WriteLine("2. Lähde taisteluun");
-                Console.WriteLine("3. Käytä esinettä repusta");
+                Console.WriteLine("2. Mene ravintolaan");
+                Console.WriteLine("3. Lähde taisteluun");
+                Console.WriteLine("4. Käytä esinettä repusta");
                 Console.Write("> ");
 
                 int valinta = int.Parse(Console.ReadLine());
@@ -43,19 +45,16 @@ namespace ritaripeli
                 switch (valinta)
                 {
                     case 1:
-                        KauppaTila();
+                        KauppaTila(kaupat[0]);
                         break;
                     case 2:
-                        TaisteluTila();
+                        KauppaTila(kaupat[1]);
                         break;
                     case 3:
-                        pelaaja.Reppu.ShowInventory();
-                        Console.WriteLine("Valitse esine käytettäväksi:");
-                        int index = int.Parse(Console.ReadLine()) - 1;
-                        pelaaja.KaytaTavara(index);
+                        TaisteluTila();
                         break;
-                    default:
-                        Console.WriteLine("Virheellinen valinta!");
+                    case 4:
+                        pelaaja.Reppu.ShowInventory();
                         break;
                 }
 
@@ -115,28 +114,38 @@ namespace ritaripeli
         }
 
 
-        public void KauppaTila()
-		{
-            IKauppa kauppa = kaupat[0];
+        public void KauppaTila(IKauppa kauppa)
+        {
             while (true)
             {
-                Console.WriteLine("\nNuolikauppa tavarat:");
-                var tuotteet = kauppa.ListaaTavarat();
-                for (int i = 0; i < tuotteet.Count; i++)
+                Console.WriteLine("Valitse toiminto:");
+                Console.WriteLine("1. Listaa tavarat");
+                Console.WriteLine("2. Osta tavara");
+                Console.WriteLine("3. Poistu");
+
+                int valinta = int.Parse(Console.ReadLine());
+
+                switch (valinta)
                 {
-                    Console.WriteLine($"{i + 1}: {tuotteet[i].Esine.Nimi} - {tuotteet[i].Hinta} kultaa");
+                    case 1:
+                        var tavarat = kauppa.ListaaTavarat();
+                        for (int i = 0; i < tavarat.Count; i++)
+                            Console.WriteLine($"{i}: {tavarat[i].Esine.Nimi} {tavarat[i].Hinta} kr");
+                        break;
+
+                    case 2:
+                        Console.WriteLine("Mikä tavara?");
+                        int tavaraValinta = int.Parse(Console.ReadLine());
+                        var ostettu = kauppa.OstaTavara(tavaraValinta, pelaaja.Rahapussi);
+                        if (ostettu != null)
+                            pelaaja.Reppu.AddItem(ostettu);
+                        break;
+
+                    case 3:
+                        return;
                 }
-                Console.WriteLine($"{tuotteet.Count + 1}: Poistu kaupasta");
-                Console.Write("> ");
-
-                int valinta = int.Parse(Console.ReadLine()) - 1;
-                if (valinta == tuotteet.Count)
-                    break;
-
-                Tavara? ostettu = kauppa.OstaTavara(valinta, pelaaja.Rahapussi);
-                if (ostettu != null)
-                    pelaaja.Reppu.AddItem(ostettu);
             }
         }
-	}
+
+    }
 }
