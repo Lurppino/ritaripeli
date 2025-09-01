@@ -69,26 +69,53 @@ namespace ritaripeli
 
 
         public void TaisteluTila()
-		{
-			// TODO arvo pelaajaa vastaan taisteleva hirviö
-			Hirviö vastustaja = null;
-			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
-			{
-				// TODO anna pelaajan valita toiminto:
-				// 1. hyökkää : aiheuta vahinkoa hirviölle
-				// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
-				// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
-				// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
-				// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
-				// 3. pakene : poistu TaisteluTilasta
+        {
+            Hirviö vastustaja = hirviot[0];
+            Console.WriteLine($"Kohtaat hirviön: {vastustaja.Nimi}!");
 
-				// TODO Jos hirviöllä on osumapisteitä jäljellä
-				// arvo hirviön tekemä vahinko ja vähennä se pelaajan osumapisteistä
-			}
-			// Kun taistelu loppuu, palaa PeliSilmukkaan
-		}
+            while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
+            {
+                Console.WriteLine($"\nOma HP: {pelaaja.Osumapisteet} / Vihollinen HP: {vastustaja.Osumapisteet}");
+                Console.WriteLine("1. Hyökkää");
+                Console.WriteLine("2. Käytä esinettä");
+                Console.WriteLine("3. Pakene");
+                Console.Write("> ");
 
-		public void KauppaTila()
+                int valinta = int.Parse(Console.ReadLine());
+
+                if (valinta == 1)
+                {
+                    int vahinko = 2;
+                    Console.WriteLine($"Aiheutat {vahinko} vahinkoa!");
+                    vastustaja.OtaVahinkoa(vahinko);
+                }
+                else if (valinta == 2)
+                {
+                    pelaaja.Reppu.ShowInventory();
+                    Console.WriteLine("Valitse esine:");
+                    int index = int.Parse(Console.ReadLine()) - 1;
+                    pelaaja.KaytaTavara(index);
+                }
+                else if (valinta == 3)
+                {
+                    Console.WriteLine("Pakenet taistelusta!");
+                    return;
+                }
+
+                if (vastustaja.Osumapisteet > 0)
+                {
+                    int enemyDamage = vastustaja.AnnaVahinko();
+                    pelaaja.Osumapisteet -= enemyDamage;
+                    Console.WriteLine($"{vastustaja.Nimi} iskee ja aiheuttaa {enemyDamage} vahinkoa!");
+                }
+            }
+
+            if (pelaaja.Osumapisteet > 0)
+                Console.WriteLine("Voitit hirviön!");
+        }
+
+
+        public void KauppaTila()
 		{
 			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
 			// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
