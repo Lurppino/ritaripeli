@@ -28,20 +28,47 @@ namespace ritaripeli
         }
 
         public void PeliSilmukka()
-		{
-			while (true)
-			{
-				// TODO näytä pelaajan tilanne
-				// TODO anna pelaajan valita meneekö kauppaan vai taistelemaan vai käyttääkö tavaroita Repusta
+        {
+            while (true)
+            {
+                Console.WriteLine($"\nTilanne: HP {pelaaja.Osumapisteet}, Kultaa {pelaaja.Rahapussi.Rahoja}");
+                Console.WriteLine("Valitse toiminto:");
+                Console.WriteLine("1. Mene nuolikauppaan");
+                Console.WriteLine("2. Lähde taisteluun");
+                Console.WriteLine("3. Käytä esinettä repusta");
+                Console.Write("> ");
+
+                int valinta = int.Parse(Console.ReadLine());
+
+                switch (valinta)
+                {
+                    case 1:
+                        KauppaTila();
+                        break;
+                    case 2:
+                        TaisteluTila();
+                        break;
+                    case 3:
+                        pelaaja.Reppu.ShowInventory();
+                        Console.WriteLine("Valitse esine käytettäväksi:");
+                        int index = int.Parse(Console.ReadLine()) - 1;
+                        pelaaja.KaytaTavara(index);
+                        break;
+                    default:
+                        Console.WriteLine("Virheellinen valinta!");
+                        break;
+                }
+
+                if (pelaaja.Osumapisteet <= 0)
+                {
+                    Console.WriteLine("Hävisit pelin!");
+                    break;
+                }
+            }
+        }
 
 
-
-
-				// Tarkista onko peli päättynyt
-			}
-		}
-
-		public void TaisteluTila()
+        public void TaisteluTila()
 		{
 			// TODO arvo pelaajaa vastaan taisteleva hirviö
 			Hirviö vastustaja = null;
